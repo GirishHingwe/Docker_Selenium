@@ -1,13 +1,19 @@
 version: '3.8'
+networks:
+  selenium-network:
+    driver: bridge
 
 services:
 
   jenkins:
-    build: Jenkins_Run_Selenium/test
+    build: Jenkins_Run_Selenium
     container_name: myjenkins-blueocean:latest
     ports:
       - "8080:8080"
       - "50000:50000"
+
+    networks:
+      - selenium-network
 
     volumes:
       - jenkins_home:/var/jenkins_home
@@ -21,6 +27,8 @@ services:
     container_name: selenium-hub
     ports:
       - "4444:4444"
+    networks:
+      - selenium-network
 
   chrome:
     image: selenium/node-chrome:4.34.0
@@ -28,7 +36,8 @@ services:
 
     depends_on:
       - selenium-hub
-
+    networks:
+      - selenium-network
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
@@ -40,6 +49,8 @@ services:
 
     depends_on:
       - selenium-hub
+    networks:
+      - selenium-network
 
     environment:
       - SE_EVENT_BUS_HOST=selenium-hub
