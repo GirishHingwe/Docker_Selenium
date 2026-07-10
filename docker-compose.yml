@@ -4,7 +4,7 @@ services:
 
   jenkins:
     build: Jenkins_Run_Selenium/test
-    container_name: jenkins
+    container_name: myjenkins-blueocean:latest
     ports:
       - "8080:8080"
       - "50000:50000"
