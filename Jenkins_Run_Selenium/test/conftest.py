@@ -28,7 +28,10 @@ def setup(request):
         options = FirefoxOptions()
         options.add_argument("--headless")
 
-        driver = webdriver.Firefox(options=options)
+        driver = webdriver.Remote(
+            command_executor="http://selenium-hub:4444",
+            options=options
+        )
 
     else:
         raise ValueError(f"Unsupported browser: {browser_name}")
